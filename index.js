@@ -99,10 +99,10 @@ function buttonClick(){
     button.forEach((butn)=>{
         butn.addEventListener("click",()=>{
             const floorNo = butn.getAttribute("data-buttonFloor");
-            console.log( "This is recent click floorNo "+floorNo);
-            let totalBtnsClkd = buttonsClicked.push(floorNo);
             
-            console.log("All the buttons clicked are "+buttonsClicked);
+            buttonsClicked.push(floorNo);
+            
+           
             AvailableLift(buttonsClicked, floorNo);
         })
         
@@ -117,7 +117,7 @@ function AvailableLift(buttonsClicked, floorNo){
     
 
     
-    let closest;
+    let closest = undefined;
     let minDistance = Infinity;
   
     for(let i=0; i<liftArray.length;i++){
@@ -130,21 +130,20 @@ function AvailableLift(buttonsClicked, floorNo){
                 closest = i;
                 minDistance = difference;
             }
-        }else if(allLiftBusy(liftArray)){
-            console.log("all lifts are busy");
         }
         
         
     }
   
+    if(closest != undefined){
     let floorCalled = liftArray[closest].getAttribute("data-liftFloor");
-    let distance = (-6.3)*(Number(floorNo))
+    let distance = (-6.3)*(Number(floorNo));
     let diffInFloors = Math.abs(2*(Number(floorNo)-floorCalled));
     let currentFloor = Number(floorNo);
     buttonsClicked.shift();
     
-    moveLift(liftArray, closest, distance, diffInFloors, currentFloor, buttonsClicked)
-
+    moveLift(liftArray, closest, distance, diffInFloors, currentFloor, buttonsClicked);
+}
 }
 
 function allLiftBusy(liftArray){
