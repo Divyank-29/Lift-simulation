@@ -14,13 +14,11 @@ const checkInput = () => {
         return;
     }
 
-    if (noOfFloors < noOfLifts) {
-        alert("The number of lifts can't be greater than the number of floors.");
-    } else {
+   
         inputPage.style.display = "none";
         buildFloor(noOfFloors);
         buildLift(noOfLifts);
-    }
+    
 };
 
 btnSubmit.addEventListener("click", checkInput);
