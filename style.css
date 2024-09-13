@@ -39,9 +39,7 @@ h1{
   background-color: blue;
   color: #fff;
   border-radius: 8px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
   padding: 0.25em 0.75em;
-  min-width: 10ch;
   min-height: 44px;
 }
 #Up{    
