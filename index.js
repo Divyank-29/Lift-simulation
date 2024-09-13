@@ -2,6 +2,9 @@ const inputPage = document.querySelector("#input-page");
 const btnSubmit = document.querySelector("#btn-submit");
 const layout = document.querySelector("#layout");
 
+let requestQueue = [];
+
+
 const checkInput = () => {
     const noOfFloors = parseInt(document.querySelector("#no-of-floors").value);
     const noOfLifts = parseInt(document.querySelector("#no-of-lifts").value);
@@ -47,7 +50,7 @@ const buildFloor = (noOfFloors) => {
         downBtn.setAttribute("class", "btn");
         downBtn.setAttribute("data-buttonFloor", i);
         downBtn.setAttribute("data-direction", "Down");
-        downBtn.setAttribute("id" , "Down")
+    downBtn.setAttribute("id" , "Down")
         downBtn.innerText = "Down";
 
         let floorNumber = document.createElement("p");
@@ -95,8 +98,7 @@ function buttonClick() {
         button.addEventListener("click", () => {
             const floorNo = button.getAttribute("data-buttonFloor");
             const direction = button.getAttribute("data-direction");
-            button.disabled = true; // Disable the button immediately after pressing
-            
+            button.disabled = true; 
             AvailableLift(floorNo, direction, button);
         });
     });
@@ -114,21 +116,27 @@ function AvailableLift(floorNo, direction, button) {
 
         let difference = Math.abs(floorNo - liftCalled);
 
-        if (liftAvailable == "available" && minDistance > difference) {
+        if (liftAvailable === "available" && minDistance > difference) {
             closest = i;
             minDistance = difference;
         }
     }
 
-    if (closest != undefined) {
+   
+    if (closest !== undefined) {
         let floorCalled = liftArray[closest].getAttribute("data-liftFloor");
         let distance = (-6.3) * Number(floorNo);
         let diffInFloors = Math.abs(2 * (Number(floorNo) - floorCalled));
         let currentFloor = Number(floorNo);
 
+        button.disabled = true; 
         moveLift(liftArray, closest, distance, diffInFloors, currentFloor, button);
+    } else {
+       
+        requestQueue.push({ floorNo, direction, button });
     }
 }
+
 
 function moveLift(liftArray, closest, distance, diffInFloors, currentFloor, button) {
     setTimeout(() => {
@@ -154,7 +162,13 @@ function moveLift(liftArray, closest, distance, diffInFloors, currentFloor, butt
 
     setTimeout(() => {
         liftArray[closest].setAttribute("liftAvailable", "available");
-        // Re-enable the button after the lift is available
-        button.disabled = false; // Re-enable the same button that was clicked
+       
+        button.disabled = false;
+
+       
+        if (requestQueue.length > 0) {
+            const nextRequest = requestQueue.shift(); 
+            AvailableLift(nextRequest.floorNo, nextRequest.direction, nextRequest.button); 
+        }
     }, ((diffInFloors * 1000) + 5000));
 }
