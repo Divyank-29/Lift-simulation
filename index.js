@@ -142,22 +142,22 @@ function moveLift(liftArray, closest, distance, diffInFloors, currentFloor, butt
     setTimeout(() => {
         liftArray[closest].setAttribute("liftAvailable", "busy");
         liftArray[closest].style.transform = `translateY(${distance}rem)`;
-        liftArray[closest].style.transition = `transform ${diffInFloors}s`;
+        liftArray[closest].style.transition = `transform ${diffInFloors}s linear`;
         liftArray[closest].setAttribute("data-liftFloor", currentFloor);
     }, 0);
 
     setTimeout(() => {
         liftArray[closest].children[0].style.transform = `translateX(${-100}%)`;
-        liftArray[closest].children[0].style.transition = `transform ${2.5}s`;
+        liftArray[closest].children[0].style.transition = `transform ${2.5}s linear`;
         liftArray[closest].children[1].style.transform = `translateX(${100}%)`;
-        liftArray[closest].children[1].style.transition = `transform ${2.5}s`;
+        liftArray[closest].children[1].style.transition = `transform ${2.5}s linear`;
     }, (diffInFloors * 1000));
 
     setTimeout(() => {
         liftArray[closest].children[0].style.transform = `translateX(${0}%)`;
-        liftArray[closest].children[0].style.transition = `transform ${2.5}s`;
+        liftArray[closest].children[0].style.transition = `transform ${2.5}s linear`;
         liftArray[closest].children[1].style.transform = `translateX(${0}%)`;
-        liftArray[closest].children[1].style.transition = `transform ${2.5}s`;
+        liftArray[closest].children[1].style.transition = `transform ${2.5}s linear`;
     }, ((diffInFloors * 1000) + 2500));
 
     setTimeout(() => {
